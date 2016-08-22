@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PeerRoom Test</title>
+    <script src="bundle.js"></script>
+
+    <script>
+      console.log('in script')
+      let signalHost = 'http://localhost:6688'
+      let roomHost = 'http://localhost:6689'
+      let node1 = new PeerRoom('testroom', signalHost, roomHost)
+      let node2 = new PeerRoom('testroom', signalHost, roomHost)
+      let node3 = new PeerRoom('testroom', signalHost, roomHost)
+
+      node1.swarm.on('peer', peer => console.log('peer1 got', peer.publicKey))
+      node2.swarm.on('peer', peer => console.log('peer2 got', peer.publicKey))
+      node3.swarm.on('peer', peer => console.log('peer3 got', peer.publicKey))
+
+      window.nodes = [node1, node2, node3]
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
