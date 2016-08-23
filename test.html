@@ -12,10 +12,36 @@
       let node1 = new PeerRoom('testroom', signalHost, roomHost)
       let node2 = new PeerRoom('testroom', signalHost, roomHost)
       let node3 = new PeerRoom('testroom', signalHost, roomHost)
+      let start = Date.now()
 
-      node1.swarm.on('peer', peer => console.log('peer1 got', peer.publicKey))
-      node2.swarm.on('peer', peer => console.log('peer2 got', peer.publicKey))
-      node3.swarm.on('peer', peer => console.log('peer3 got', peer.publicKey))
+      function mkprint (i) {
+        return peer => {
+          let delay = ((Date.now() - start) / 1000) + 's'
+          let txt = `peer${i} got ${peer.publicKey.slice(0,10)} in ${delay}`
+          console.log(txt)
+        }
+      }
+
+      node1.swarm.on('peer', mkprint(1))
+      node2.swarm.on('peer', mkprint(2))
+      node3.swarm.on('peer', mkprint(3))
+      node3.swarm.once('peer', () => {
+        setTimeout(() => {
+          node3.write('This is a test message.', (err, info) => {
+            console.log(err, info)
+          })
+        })
+      })
+
+      node1.on('message', str => {
+        console.log(1, str)
+      })
+      node2.on('message', str => {
+        console.log(2, str)
+      })
+      node3.on('message', str => {
+        console.log(3, str)
+      })
 
       window.nodes = [node1, node2, node3]
     </script>
