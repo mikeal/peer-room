@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PeerRoom</title>
+    <script src="vendor/jquery-2.2.4.js"></script>
+    <link rel="stylesheet" type="text/css" href="vendor/semantic.min.css">
+    <script src="vendor/semantic.min.js"></script>
+    <!--<script src="vendor/twemoji-2.1.2.min.js"></script>-->
+    <link rel="stylesheet" href="vendor/twemoji-picker.css">
+
+    <script src="vendor/twemoji-picker.js"></script>
+    <style>
+    .main.container {
+      margin-top: 2em;
+    }
+    .save-button {
+      position: absolute;
+      top: 0.78575em;
+      right: 0.5em;
+    }
+    img.emoji {
+      height: 1em;
+      width: 1em;
+      margin: 0 .05em 0 .1em;
+      vertical-align: -0.1em;
+    }
+    div.torrent-file * {
+      width:100%;
+      max-width:100%;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div class="ui basic modal" id="loading-modal">
+      <div class="header">
+        Loading application.<br>
+        It is unlikely to work without the latest Chrome Browser.
+      </div>
+      <div class="image content">
+        <div class="image">
+          <i class="archive icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    $('#loading-modal').modal('show')
+    window.onload = () => {
+      $('#bundle-script').ready(() => {
+        $('#loading-modal').modal('hide')
+      })
+    }
+    </script>
+
+    <div class="ui main text container">
+      <div class="ui fluid action input">
+        <textarea class="ui unput" id="commentbox"></textarea>
+        <div id="sayit" class="ui button">Say It!</div>
+      </div>
+
+      <h3 class="ui dividing header">PeerRoom</h3>
+      <div id="comment-container" class="ui comments">
+      </div>
+    </div>
+    <div id="people-list">
+    </div>
+    <script>
+    $('#commentbox').twemojiPicker()
+    </script>
+
+    <div class="ui basic modal" id="drag-modal">
+      <div class="header">
+        Drop any file type up upload!
+      </div>
+      <div class="image content">
+        <div class="image">
+          <i class="archive icon"></i>
+        </div>
+        <div class="description">
+          <p>All files are shared via webtorrent with the room.</p>
+          <p>While the message is encrypted to all recipients the files are shared via a public torrent tracker.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui basic modal" id="upload-modal">
+      <div class="ui active dimmer">
+          <div class="ui indeterminate massive text loader">Preparing Files</div>
+      </div>
+    </div>
+
+
+    <script async id="bundle-script" src="bundle.js"></script>
+    <script>
+      console.log('js loaded')
+    </script>
+  </body>
+</html>
