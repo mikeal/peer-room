@@ -11,9 +11,6 @@
 
     <script src="vendor/twemoji-picker.js"></script>
     <style>
-    .main.container {
-      margin-top: 2em;
-    }
     .save-button {
       position: absolute;
       top: 0.78575em;
@@ -29,9 +26,25 @@
       width:100%;
       max-width:100%;
     }
+    div#settings-container {
+      position:relative
+    }
+    i.settings {
+      cursor:pointer;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+    }
+    div.main {
+      padding-top:2em;
+    }
     </style>
   </head>
   <body>
+    <i class="settings large icon"></i>
+    <div id="settings-container">
+
+    </div>
 
     <div class="ui basic modal" id="loading-modal">
       <div class="header">
@@ -60,11 +73,18 @@
         <div id="sayit" class="ui button">Say It!</div>
       </div>
 
-      <h3 class="ui dividing header">PeerRoom</h3>
-      <div id="comment-container" class="ui comments">
+      <div class="ui styled accordion">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          Peers <span id="peernum">0</span>
+        </div>
+        <div class="content">
+          <div id="people-list" class="transition hidden"></div>
+        </div>
       </div>
-    </div>
-    <div id="people-list">
+
+      <div id="comment-container" class="ui comments items">
+      </div>
     </div>
     <script>
     $('#commentbox').twemojiPicker()

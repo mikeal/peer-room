@@ -133,18 +133,18 @@ var commentView = funky`
 </div>`
 
 var torrentView = funky`
-<div class="ui card" id="a${ (c, t) => t.infoHash } docid="${c => c._id}">
+<div class="item" id="a${ (c, t) => t.infoHash }" docid="${c => c._id}">
+  <a class="ui tiny image">
+    <img src="${c => c.gravatar}">
+  </a>
   <div class="content">
-    <img class="ui avatar image" src="${c => c.gravatar}"> ${c => c.name}
-    <div class="meta">${c => moment(c.ts).fromNow()}</div>
-  </div>
-  ${ (c, t) => t.files.map((f,i) => bel`<div class="torrent-file" id=a${t.infoHash + i}></div>`)
-  }
-  <div class="extra content">
-    <a>
-      <i class="user icon"></i>
-      ${ (c, t) => t.numPeers } Peers
-    </a>
+    <a class="header">${c => c.name}</a>
+     <div class="meta">${c => moment(c.ts).fromNow()}</div>
+    <span class="numpeers">${ (c, t) => t.numPeers }</span> Peers
+    <div class="description">
+       ${ (c, t) => t.files.map((f,i) => bel`<div class="torrent-file" id=a${t.infoHash + i}></div>`)
+        }
+    </div>
   </div>
 </div>
 `
@@ -243,42 +243,43 @@ function readConfig () {
   return JSON.parse(localStorage.getItem('infoCache'))
 }
 
-function config (info) {
-  if (!info) {
-    // Bring up modal to capture join info.
-    let _update = () => {
-      info.name = $('input[name=realname]').val()
-      info.email = $('input[name=email]').val()
-      info.gravatar = `http://www.gravatar.com/avatar/${md5(info.email)}?s=2048`
-      $('div.card')[0].update(info)
-    }
-    if (localStorage.getItem('infoCache')) {
-      info = readConfig()
-    }
-    info = info || {}
-    var elem = modalView(info)
-    console.log(elem)
-    document.body.appendChild(elem)
-    $('.ui.modal')
-    .modal('show')
-    .on('input', () => {
-      _update()
-    })
-    $('div.save-button').click(function () {
-      _update()
-      localStorage.setItem('infoCache', JSON.stringify(info))
-      mynode.swarm.setInfo(info)
-      $('.ui.modal').modal('hide')
-    })
-    return
+function config () {
+  let info
+  // Bring up modal to capture join info.
+  let _update = () => {
+    info.name = $('input[name=realname]').val()
+    info.email = $('input[name=email]').val()
+    info.gravatar = `http://www.gravatar.com/avatar/${md5(info.email)}?s=2048`
+    $('div.card')[0].update(info)
   }
+  if (localStorage.getItem('infoCache')) {
+    info = readConfig()
+  }
+  info = info || {}
+  var elem = modalView(info)
+  console.log(elem)
+  document.body.appendChild(elem)
+  $('.ui.modal')
+  .modal('show')
+  .on('input', () => {
+    _update()
+  })
+  $('div.save-button').click(function () {
+    _update()
+    localStorage.setItem('infoCache', JSON.stringify(info))
+    mynode.swarm.setInfo(info)
+    $('.ui.modal').modal('hide')
+  })
 }
+
 if (localStorage.getItem('infoCache')) {
   let info = JSON.parse(localStorage.getItem('infoCache'))
   mynode.swarm.setInfo(info)
 } else {
   config()
 }
+
+$('i.settings').click(config)
 
 function onDrop (files) {
   $('#upload-modal').modal('show')
