@@ -48,13 +48,7 @@
 
     <div class="ui basic modal" id="loading-modal">
       <div class="header">
-        Loading application.<br>
-        It is unlikely to work without the latest Chrome Browser.
-      </div>
-      <div class="image content">
-        <div class="image">
-          <i class="archive icon"></i>
-        </div>
+        <div class="ui indeterminate massive text loader">Loading Application. Probably won't work w/o latest Chrome.</div>
       </div>
     </div>
 
@@ -73,10 +67,10 @@
         <div id="sayit" class="ui button">Say It!</div>
       </div>
 
-      <div class="ui styled accordion">
+      <div class="ui accordion">
         <div class="title">
           <i class="dropdown icon"></i>
-          Peers <span id="peernum">0</span>
+          Peers (<span id="peernum">0</span>)
         </div>
         <div class="content">
           <div id="people-list" class="transition hidden"></div>
@@ -111,10 +105,37 @@
       </div>
     </div>
 
+    <div class="ui basic modal" id="encrypt-modal">
+      <div class="ui active dimmer">
+          <div class="ui indeterminate massive text loader">Encrypting Message</div>
+      </div>
+    </div>
 
     <script async id="bundle-script" src="bundle.js"></script>
     <script>
       console.log('js loaded')
     </script>
   </body>
+  <script>
+  // Accordion JS
+  accordion = {};
+  accordion.ready = function () {
+    // selector cache
+    var
+      $accordion     = $('.ui.accordion'),
+      $menuAccordion = $('.ui.menu.accordion'),
+      $checkbox      = $('.ui.checkbox'),
+      // alias
+      handler
+    ;
+    $accordion.accordion()
+    $menuAccordion
+      .accordion({
+      exclusive: true
+      })
+    $checkbox
+      .checkbox()
+  }
+  $(document).ready(accordion.ready)
+</script>
 </html>

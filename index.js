@@ -165,17 +165,15 @@ function addComment (obj) {
 
 function addTorrent (obj, localTorrent) {
   obj.gravatar = obj.gravatar || people[obj.publicKey].gravatar
-  console.log('addTorrent')
 
   function onTorrent (torrent) {
-    console.log('Client is downloading:', torrent.infoHash)
+    console.log('Client is downloading:', torrent)
 
     let elem = torrentView(obj, torrent)
     $('#comment-container').prepend(elem)
 
     setTimeout(() => {
       for (var i = 0; i < torrent.files.length; i++) {
-        console.log(`div#a${ torrent.infoHash }${i}`)
         torrent.files[i].appendTo(`div#a${ torrent.infoHash }${i}`)
       }
     }, 1)
@@ -191,15 +189,22 @@ function addTorrent (obj, localTorrent) {
 const elemById = id => document.getElementById(id)
 
 $('#sayit').click(() => {
+  console.log('click')
   let text = elemById('commentbox').value.replace(/&nbsp;/g, ' ')
+  console.log('text')
   let ts = Date.now()
   let info = readConfig()
+  console.log('after info')
   let publicKey = mynode.swarm.publicKey
   let name = info.name
   let gravatar = info.gravatar
-  console.log({text, ts})
-  mynode.write({text, ts})
-  addComment({text, ts, publicKey, name, gravatar})
+  $('div#encrypt-modal').modal('show')
+  setTimeout(() => {
+    mynode.write({text, ts}, () => {
+      $('div#encrypt-modal').modal('hide')
+      addComment({text, ts, publicKey, name, gravatar})
+    })
+  }, 1)
 })
 
 const personView = funky`
@@ -218,11 +223,22 @@ const peopleView = funky`
 
 document.getElementById('people-list').appendChild(peopleView([]))
 
-mynode.swarm.on('data:peer', (doc) => {
+function addPeerRow (doc) {
   doc.gravatar = `http://www.gravatar.com/avatar/${md5(doc.value.email)}?s=2048`
   people[doc.from] = doc
   let _people = _.orderBy(_.values(people), p => p.value.name)
   document.getElementById('people').update(_people)
+  $('span#peernum').text(_people.length)
+}
+
+mynode.swarm.on('data:peer', (doc) => {
+  if (mynode.swarm.remotes[doc.from]) addPeerRow(doc)
+})
+mynode.swarm.on('remote', (remote) => {
+  mynode.swarm.db.get(`peer:${remote.publicKey}`, (err, doc) => {
+    if (err) return // We connected to this peer before getting its peer info.
+    addPeerRow(doc)
+  })
 })
 
 mynode.on('message', ({text, ts}, publicKey) => {
@@ -257,7 +273,6 @@ function config () {
   }
   info = info || {}
   var elem = modalView(info)
-  console.log(elem)
   document.body.appendChild(elem)
   $('.ui.modal')
   .modal('show')
@@ -291,9 +306,13 @@ function onDrop (files) {
     let name = info.name
     let gravatar = info.gravatar
     let magnet = torrent.magnetURI
-    mynode.write({magnet, ts})
-    $('#upload-modal').modal('hide')
-    addTorrent({torrent, ts, publicKey, name, gravatar})
+    $('div#encrypt-modal').modal('show')
+    setTimeout(() => {
+      mynode.write({magnet, ts})
+      $('div#encrypt-modal').modal('hide')
+      $('#upload-modal').modal('hide')
+      addTorrent({torrent, ts, publicKey, name, gravatar})
+    }, 1)
   })
 }
 
