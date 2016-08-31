@@ -70,7 +70,7 @@ let previewView = funky`
       width="200"
       height="200"
       class="person"
-      style="background: url('${ info => info.image || defaultImage }');
+      style="background: url('${ info => info.gravatar || defaultImage }');
             background-size:contain"
       >
     </canvas>
@@ -221,7 +221,7 @@ const peopleView = funky`
 document.getElementById('people-list').appendChild(peopleView([]))
 
 function addPeerRow (doc) {
-  doc.gravatar = `http://www.gravatar.com/avatar/${md5(doc.value.email)}?s=2048`
+  doc.gravatar = `https://www.gravatar.com/avatar/${md5(doc.value.email)}?s=2048`
   people[doc.from] = doc
   let _people = _.orderBy(_.values(people), p => p.value.name)
   document.getElementById('people').update(_people)
