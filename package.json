@@ -13,10 +13,10 @@
   "dependencies": {
     "bel": "^4.4.3",
     "drag-drop": "^2.12.1",
-    "funky": "^1.3.0",
+    "funky": "^1.4.0",
     "lodash": "^4.15.0",
     "moment": "^2.14.1",
-    "resilient-swarm": "^0.2.0",
+    "resilient-swarm": "^0.3.0",
     "twemoji": "^2.1.5",
     "webtorrent": "^0.96.4"
   },
