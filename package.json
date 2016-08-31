@@ -19,5 +19,11 @@
     "resilient-swarm": "^0.2.0",
     "twemoji": "^2.1.5",
     "webtorrent": "^0.96.4"
+  },
+  "devDependencies": {
+    "beefy": "^2.1.8",
+    "browserify": "^13.1.0",
+    "uglify-js": "^2.7.3",
+    "watchify": "^3.7.0"
   }
 }
