@@ -147,8 +147,8 @@ var torrentView = funky`
 </div>
 `
 
-let signalHost = 'http://localhost:6688'
-let roomHost = 'http://localhost:6689'
+let signalHost = 'https://signalexchange.now.sh'
+let roomHost = 'https://roomexchange.now.sh'
 const mynode = new PeerRoom('testroom', signalHost, roomHost)
 const people = {}
 
