@@ -1,5 +1,5 @@
-const resilientSwarm = require('../resilient-swarm')
-const funky = require('../funky')
+const resilientSwarm = require('resilient-swarm')
+const funky = require('funky')
 const moment = require('moment')
 const EventEmitter = require('events').EventEmitter
 const util = require('util')
@@ -60,8 +60,6 @@ PeerRoom.prototype.write = function (data, cb) {
     this.swarm.put(key, message, cb)
   })
 }
-
-window.PeerRoom = PeerRoom
 
 let defaultImage = 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d5'
 
@@ -153,7 +151,6 @@ let signalHost = 'http://localhost:6688'
 let roomHost = 'http://localhost:6689'
 const mynode = new PeerRoom('testroom', signalHost, roomHost)
 const people = {}
-window.mynode = mynode
 
 function addComment (obj) {
   obj.gravatar = obj.gravatar || people[obj.publicKey].gravatar
@@ -321,3 +318,8 @@ dragDrop('body', {
   onDragOver: () => $('#drag-modal').modal('show'),
   onDragLeave: () => $('#drag-modal').modal('hide')
 })
+
+if (process.browser) {
+  window.PeerRoom = PeerRoom
+  window.mynode = mynode
+}
