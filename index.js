@@ -267,7 +267,7 @@ function config () {
   let _update = () => {
     info.name = $('input[name=realname]').val()
     info.email = $('input[name=email]').val()
-    info.gravatar = `http://www.gravatar.com/avatar/${md5(info.email)}?s=2048`
+    info.gravatar = `https://www.gravatar.com/avatar/${md5(info.email)}?s=2048`
     $('div.card')[0].update(info)
   }
   if (localStorage.getItem('infoCache')) {
