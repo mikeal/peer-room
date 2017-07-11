@@ -1,5 +1,7 @@
 # Peer Room
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mikeal/peer-room.svg)](https://greenkeeper.io/)
+
 Peer Room is an experiment in secure web based p2p systems.
 
 The entire application is in the browser client which is hosted as a `gh-pages`
