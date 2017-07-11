@@ -11,19 +11,19 @@
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (http://www.mikealrogers.com)",
   "license": "Apache-2.0",
   "dependencies": {
-    "bel": "^4.4.3",
+    "bel": "^5.0.2",
     "drag-drop": "^2.12.1",
-    "funky": "^1.4.0",
+    "funky": "^2.3.0",
     "lodash": "^4.15.0",
     "moment": "^2.14.1",
     "resilient-swarm": "^0.3.0",
     "twemoji": "^2.1.5",
-    "webtorrent": "^0.96.4"
+    "webtorrent": "^0.98.19"
   },
   "devDependencies": {
     "beefy": "^2.1.8",
-    "browserify": "^13.1.0",
-    "uglify-js": "^2.7.3",
+    "browserify": "^14.4.0",
+    "uglify-js": "^3.0.24",
     "watchify": "^3.7.0"
   }
 }
